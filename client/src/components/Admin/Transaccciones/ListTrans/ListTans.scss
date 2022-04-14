@@ -1,0 +1,51 @@
+.list-users{
+
+    &__header{
+        display: flex;
+        align-items:center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    
+        &-switch{
+            display: flex;
+            align-items: center;
+            
+            > button {
+                margin-right: 20px;
+            }
+        }
+    }
+    .Trans-Global {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .trans-1 {
+        width: 100%;
+    }
+    .trans-2 {
+        width: 100%;
+    }
+    .trans-div-money {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        h4{
+            font-size: 30px;
+        }
+    }
+
+    .users-active{
+        background-color: white;
+        padding: 10px 20px;
+
+        .ant-list-item-meta{
+            display: flex;
+            align-items: center;
+        }
+    }
+
+}
