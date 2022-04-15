@@ -46,7 +46,7 @@ export default function LayoutAdmin(props) {
     return null;
 }
 
-function LoadRoutes({ routes }) {
+function LoadRoutes({ routes}) {
     return (
         <Switch>
             {routes.map((route, index) => (

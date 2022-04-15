@@ -87,8 +87,8 @@ export function getAvatarApi(avatarName){
 }
 
 
-export function deleteBookApi(token, userBook){
-    const url = `${basePath}/${apiVersion}/delete-book/${userBook}`
+export function deleteBookApi(token, bookBook){
+    const url = `${basePath}/${apiVersion}/delete-book/${bookBook}`
 
     const params ={
         method: "DELETE",
@@ -109,8 +109,8 @@ export function deleteBookApi(token, userBook){
     });
 }
 
-export function updateBookApi(token, user, userId){
-    const url = `${basePath}/${apiVersion}/update-book/${userId}`;
+export function updateBookApi(token, book, bookId){
+    const url = `${basePath}/${apiVersion}/update-book/${bookId}`;
 
     const params ={
         method: "PUT",
@@ -118,7 +118,7 @@ export function updateBookApi(token, user, userId){
             "Content-Type": "application/json",
             Authorization: token
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(book)
     };
 
     return fetch(url, params)
@@ -127,6 +127,31 @@ export function updateBookApi(token, user, userId){
     })
     .then(result =>{
         return result;
+    })
+    .catch(err =>{
+        return err.message;
+    });
+}
+
+
+export function createBookApi(token, data){
+    const url = `${basePath}/${apiVersion}/create-book`
+
+    const params= {
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json",
+            Authorization: token
+        },
+        body: JSON.stringify(data)
+    }
+
+    return fetch(url, params)
+    .then(response =>{
+        return response.json();
+    })
+    .then(result =>{
+        return result.message;
     })
     .catch(err =>{
         return err.message;

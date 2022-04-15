@@ -162,14 +162,11 @@ function EditForm(props){
                 </Col>
                 <Col span={12}>
                 <Form.Item>
-                    <Select placeholder="Selecciona un rol:"
-                        onChange={e => setUserData({...userData, genre: e})}
+                        <Input prefix={ <CalendarOutlined />} placeholder="Genero"
                         value={userData.genre}
-                    >
-                        <Option value="Masculino">Masculino</Option>
-                        <Option value="Femenino">Femenino</Option>
-                    </Select>
-                </Form.Item>
+                        onChange={e => setUserData({...userData, genre: e.target.value})}
+                        />    
+                    </Form.Item>
                 </Col>
             </Row> 
             {/* <Row gutter={24}>

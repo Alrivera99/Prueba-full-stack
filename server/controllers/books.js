@@ -7,7 +7,7 @@ const { exists } = require("../models/books");
 
 
 function createBook(req, res){
-    const books =new User();
+    const books =new Book();
     const { title, author, year,genre} = req.body;
     title.title=title;
     author.author=author;
@@ -17,12 +17,12 @@ function createBook(req, res){
    
     books.save((err, booksStored) =>{
         if(err){
-            res.status(500).send({message: "La transaccion ya existe"});
+            res.status(500).send({message: "El libro ya existe"});
         }else{
             if(!booksStored){
-                res.status(404).send({message: "Error al crear al usuario"});
+                res.status(404).send({message: "Error al crear al libro"});
             }else{
-                res.status(200).send({books: booksStored});
+                res.status(200).send({books: booksStored, message: "Libro creado correctamente."});
             }
         }
     });
@@ -31,7 +31,7 @@ function createBook(req, res){
 function getBook(req, res){
     Book.find().then(Books =>{
         if(!Books){
-            res.status(404).send({message: "No se ha encontrado ningun usuario"});
+            res.status(404).send({message: "No se ha encontrado ningun libro"});
         } else{
             res.status(200).send({Books});
         }
@@ -42,7 +42,7 @@ function getBookActive(req, res){
     const query = req.query;
     Book.find({active: query.active}).then(Books =>{
         if(!Books){
-            res.status(404).send({message: "No se ha encontrado ningun usuario"});
+            res.status(404).send({message: "No se ha encontrado ningun libro"});
         } else{
             res.status(200).send({Books});
         }
@@ -79,7 +79,7 @@ function uploadAvatar (req, res){
                                 res.status(500).send({message: "Error del servidor."});
                             } else{
                                 if(!bookResult){
-                                    res.status(400).send({message: "No se ha encontrado ningun usuario."})
+                                    res.status(400).send({message: "No se ha encontrado ningun libro."})
                                 } else{
                                     res.status(200).send({ avatarName: fileName});
                                 }
@@ -119,18 +119,36 @@ async function updateBook(req, res){
             res.status(500).send({ message: "Error del servidor."});
         } else{
             if(!bookUpdate){
-                res.status(404).send({message: "No se ha encontrado ningun usuario."})
+                res.status(404).send({message: "No se ha encontrado ningun libro."})
             } else{
-                res.status(200).send({message: "Usuario actualizado correctamente"})
+                res.status(200).send({message: "Libro actualizado correctamente"})
             }
         }
     })
 }
+
+function deleteBook(req, res){
+    const {id} = req.params
+
+    Book.findByIdAndRemove(id, (err, bookDelete) =>{
+        if(err){
+            res.status(500).send({message: "Error del servidor."});
+        }else{
+            if(!bookDelete){
+                res.status(404).send({message: "No se ha encontrado el libro."});
+            } else{
+                res.status(200).send({message: "El libro fue eliminado correctamente"})
+            }
+        }
+    })
+}
+
 module.exports={
     createBook,
     getBook,
     getBookActive,
     getAvatar,
     uploadAvatar,
-    updateBook
+    updateBook,
+    deleteBook
 }; 

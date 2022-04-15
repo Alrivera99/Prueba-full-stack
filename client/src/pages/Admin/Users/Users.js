@@ -6,8 +6,7 @@ import {getUsersApiActive} from '../../../Api/user';
 
 import ListUsers from "../../../components/Admin/Users/ListUsers";
 
-export default function Users() {
-
+export default function Users(props) {
     const [usersActive, setUsersActive] = useState([]);
     const [usersInactive, setUsersInactive] = useState([]);
     const [reloadUsers, setReloadUsers] = useState(false);
