@@ -64,10 +64,11 @@ function signIn(req, res){
                         if(!userStored.active){
                             res.status(200).send({code: 200, message:"El usuario no se ha activado."});
                         } else {
-                            if(userStored.role === "librarian"){
+                            if(userStored.role === "librarian" || "student"){
                                 res.status(200).send({
                                     accessToken: jwt.createAccessToken(userStored),
-                                    refreshToken: jwt.createRefreshToken(userStored)
+                                    refreshToken: jwt.createRefreshToken(userStored),
+                                    userStored
                                 }); 
                             }else{
                                 res.status(404).send({message: "Este usuario no es valido."})

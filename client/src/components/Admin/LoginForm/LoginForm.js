@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, notification} from 'antd';
 import { UserOutlined,LockOutlined} from '@ant-design/icons';
-import { ACCESS_TOKEN, REFRESH_TOKEN} from "../../../utils/constants"
+import { ACCESS_TOKEN, REFRESH_TOKEN,ROLE} from "../../../utils/constants"
 import { signInApi} from '../../../Api/user'
 
 import './LoginForm.scss';
@@ -33,13 +33,12 @@ export default function LoginForm(){
             const{accessToken,refreshToken} = result;
             localStorage.setItem(ACCESS_TOKEN, accessToken);
             localStorage.setItem(REFRESH_TOKEN, refreshToken);
-
+            localStorage.setItem(ROLE,result.userStored.role);
             notification["success"]({
                 message: "Login correcto."
             });
             window.location.href ="/admin"
         }
-        console.log(result);
     };
 
     return(

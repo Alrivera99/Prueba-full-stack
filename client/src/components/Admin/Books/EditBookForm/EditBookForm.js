@@ -3,14 +3,14 @@ import React,{useCallback,useEffect, useState} from 'react';
 import "./EditUserForm.scss"
 import {Avatar,Form, Icon, Select, Button, Row,Col, Input, notification} from 'antd'
 import {useDropzone} from 'react-dropzone';
-import { HomeOutlined, MenuOutlined,UserOutlined,MailOutlined,LockOutlined} from '@ant-design/icons';
+import { HomeOutlined, MenuOutlined,UserOutlined,CalendarOutlined,LockOutlined} from '@ant-design/icons';
 
 import NoAvatar from '../../../../assets/img/png/no-avatar.png'
 
 import {updateBookApi, uploadAvatarApi, getAvatarApi} from "../../../../Api/book";
 import {getAccessTokenApi} from "../../../../Api/auth";
 
-export default function EditUserForm(props){
+export default function EditBookForm(props){
     const {books, setIsVisibleModal, setReloadUsers} = props;
     const [avatar, setAvatar] = useState(null);
     const [userData, setUserData] = useState({});
@@ -154,7 +154,7 @@ function EditForm(props){
           <Row gutter={24}>
                 <Col span={12}>
                 <Form.Item>
-                        <Input prefix={ <MailOutlined />} placeholder="Año de publicacion"
+                        <Input prefix={ <CalendarOutlined />} placeholder="Año de publicacion"
                         value={userData.year}
                         onChange={e => setUserData({...userData, year: e.target.value})}
                         />

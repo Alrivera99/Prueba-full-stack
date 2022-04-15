@@ -6,7 +6,7 @@ import './MenuSider.scss'
 
 function MenuSlider(props){
    
-    const{menuCollapsed, location} = props;
+    const{menuCollapsed, location,role} = props;
     const{Sider} = Layout;
     return(
         <Sider className="admin-sider" collapsed={menuCollapsed}>
@@ -17,12 +17,14 @@ function MenuSlider(props){
                         <span className="nav-text">Home</span>
                     </Link>
                </Menu.Item>
+               {role == "librarian" && 
                <Menu.Item key="/admin/users">
                     <Link to="/admin/users">
                     <UserOutlined />
                         <span className="nav-text">Usuarios</span>
                     </Link>
-               </Menu.Item>
+               </Menu.Item> }
+              
                <Menu.Item key="/admin/menu">
                     <Link to="/admin/menu">
                     <BookOutlined />

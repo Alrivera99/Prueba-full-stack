@@ -21,7 +21,6 @@ export default function SignIn(){
             <Content className="sign-in__content">
                 <h1 className="sign-in__content-logo">
                 <h1 className="h1-title-banks">University Library System</h1>
-                    {/* <img src={Logo} alt="Alejandro Rivera"/> */}
                 </h1>
                 <div className="sign-in__content-tabs">
                 <Tabs type="card">

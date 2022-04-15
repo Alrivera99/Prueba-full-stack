@@ -61,11 +61,6 @@ const routes =[
                 exact: true
             },
             {
-                path: "/contact",
-                component: Contact,
-                exact : true
-            },
-            {
                 component:Error404
             }
         ]

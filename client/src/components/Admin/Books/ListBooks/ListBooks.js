@@ -3,7 +3,7 @@ import { Switch, List, Avatar, Button, notification, Modal as ModalAntd } from '
 import NoAvatar from '../../../../assets/img/png/no-avatar.png';
 import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons';
 import Modal from '../../../Modal';
-import EditUserForm from "../EditUserForm";
+import EditBookForm from "../EditBookForm";
 import AddUserForm from "../AddUserForm"
 
 import { getBookApiActive, getAvatarApi ,deleteBookApi} from "../../../../Api/book"
@@ -38,7 +38,7 @@ export default function ListBooks(props) {
                         onChange={() => setViewUsersActives(!viewUsersActives)}
                     />
                     <span>
-                        {viewUsersActives ? "Libros activos" : "Libros inactivos"}
+                        {viewUsersActives ? "Libros Disponibles" : "Libros Agotados"}
                     </span>
                 </div>
                 <Button type="primary" onClick={addUserModal}>
@@ -68,8 +68,8 @@ function UsersActive(props) {
 
     const editUser = books => {
         setIsVisibleModal(true);
-        setModalTitle(`Editar ${books.title ?books.title : "..."} ${books.title? books.title : "..."} `);
-        setModalContent(<EditUserForm books={books} setIsVisibleModal={setIsVisibleModal} setReloadUsers={setReloadUsers} />);
+        setModalTitle(`Editar ${books.title ?books.title : "..."} de ${books.author? books.author : "..."} `);
+        setModalContent(<EditBookForm books={books} setIsVisibleModal={setIsVisibleModal} setReloadUsers={setReloadUsers} />);
     }
 
     return (
