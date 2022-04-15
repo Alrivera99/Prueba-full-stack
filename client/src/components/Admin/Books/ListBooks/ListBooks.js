@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Switch, List, Avatar, Button, notification, Modal as ModalAntd } from 'antd'
 import NoAvatar from '../../../../assets/img/png/no-avatar.png';
-import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined, EyeOutlined } from '@ant-design/icons';
+import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined, ExceptionOutlined } from '@ant-design/icons';
 import Modal from '../../../Modal';
 import { ROLE } from "../../../../utils/constants";
 import EditBookForm from "../EditBookForm";
@@ -131,6 +131,33 @@ function UserActive(props) {
             }
         })
     }
+    const ReservConfirm = e => {
+        const accessToken = getAccessTokenApi();
+
+        confirm({
+            title: "Reservar este libro",
+            content: `Estas seguro que quieres reservar el libro ${books.title} de ${books.author} ?`,
+            okText: "Reservar",
+            okType: "primary",
+            cancelText: "Cancelar",
+            onOk() {
+                // deleteBookApi(accessToken, books._id)
+                //     .then(response => {
+                //         notification["success"]({
+                //             message: response
+                //         });
+                //         setReloadUsers(true)
+                //     })
+                //     .catch(err => {
+                //         {
+                //             notification["error"]({
+                //                 message: err
+                //             })
+                //         }
+                //     })
+            }
+        })
+    }
 
     return (
         <>
@@ -142,9 +169,9 @@ function UserActive(props) {
                         actions={[
                             <Button
                                 type="primary"
-                                onClick={() => editUser(books)}
+                                onClick={ReservConfirm}
                             >
-                                <EyeOutlined />
+                                <ExceptionOutlined />
                             </Button>,
                             // <Button
                             //     type="danger"

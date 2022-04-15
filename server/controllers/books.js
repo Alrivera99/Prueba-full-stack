@@ -9,8 +9,8 @@ const { exists } = require("../models/books");
 function createBook(req, res){
     const books =new Book();
     const { title, author, year,genre} = req.body;
-    title.title=title;
-    author.author=author;
+    books.title=title;
+    books.author=author;
     books.year = year;
     books.genre = genre;
     books.active =  true;
