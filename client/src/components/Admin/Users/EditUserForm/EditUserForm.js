@@ -170,15 +170,14 @@ function EditForm(props){
                 </Col>
                 <Col span={12}>
                 <Form.Item>
-                    <Select placeholder="Selecciona un rol:"
-                        onChange={e => setUserData({...userData, role: e})}
-                        value={userData.role}
-                    >
-                        <Option value="admin">Administrador</Option>
-                        <Option value="editor">Editor</Option>
-                        <Option value="review">Revisor</Option>
-                    </Select>
-                </Form.Item>
+                        <Select 
+                        placeholder="Seleciona un rol"
+                        onChange={e => setUserData({...userData, role: e})}>
+                            <Option value="librarian">Librarian</Option>
+                            <Option value="student">Student</Option>
+                        </Select>
+
+                    </Form.Item>
                 </Col>
             </Row>
             <Row gutter={24}>

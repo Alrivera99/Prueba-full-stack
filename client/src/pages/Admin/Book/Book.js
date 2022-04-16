@@ -15,11 +15,9 @@ export default function Book() {
     const [autor, setAutor] = useState("");
     const [genre, setGenero] = useState("");
     const token = getAccessTokenApi();
-    const { Search } = Input;
-
-
 
     useEffect(() => {
+        
         getBookApiActive(token, true).then(response => {
             const found = response.Books.filter(function (item) {
                 let itemData = "";

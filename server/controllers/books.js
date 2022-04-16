@@ -142,9 +142,31 @@ function deleteBook(req, res){
         }
     })
 }
+function activateBook(req, res){
+    const {id} = req.params;
+    const {active} = req.body;
+
+    Book.findByIdAndUpdate(id,{active}, (err, bookStored) =>{
+        if(err){
+            res.status(500).send({message: "Error del servidor."});
+        }else{
+            if(!bookStored){
+                res.status(404).send({message: "No se ha encontrado el libro."});
+            }else{
+                if(active === true){
+                    res.status(200).send({message:"El libro fue regresado correctamente"})
+                }
+                else{
+                    res.status(200).send({message: "El libro fue reservado  correctamente"})
+                }
+            }
+        }
+    })
+}
 
 module.exports={
     createBook,
+    activateBook,
     getBook,
     getBookActive,
     getAvatar,

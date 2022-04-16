@@ -1,18 +1,14 @@
 // Layout
 
 import LayoutAdmin from '../layouts/LayoutAdmin'
-import LayoutBasic from '../layouts/LayoutBasic'
 
 //Admin Pages
 
 import AdminHome from '../pages/Admin' 
 import AdminSignIn from '../pages/Admin/SignIn'
 import AdminUsers from '../pages/Admin/Users'
-import AdminMenuWeb from '../pages/Admin/MenuWeb'
+import AdminBook from '../pages/Admin/Book'
 
-//Pages
-import Home from '../pages/Home'
-import Contact from '../pages/Contact'
 
 //Other
 import Error404 from '../pages/Error404'
@@ -40,8 +36,8 @@ const routes =[
                 exact:true
             },
             {
-                path: "/admin/menu",
-                component:AdminMenuWeb,
+                path: "/admin/books",
+                component:AdminBook,
                 exact: true
             },
             {
@@ -52,12 +48,12 @@ const routes =[
     },
     {
         path: "/" ,
-        component: LayoutBasic,
+        component: LayoutAdmin,
         exact: false,
         routes: [
             {
-                path: "/",
-                component: Home,
+                path: "/admin",
+                component: AdminHome,
                 exact: true
             },
             {

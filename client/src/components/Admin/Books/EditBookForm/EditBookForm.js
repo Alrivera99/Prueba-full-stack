@@ -29,7 +29,6 @@ export default function EditBookForm(props){
         if(books.avatar){
             getAvatarApi(books.avatar).then(response =>{
                 setAvatar(response);
-                console.log(response);
             })
         } else{
             setAvatar(null);
@@ -39,7 +38,7 @@ export default function EditBookForm(props){
     useEffect(()=>{
         if(avatar){
             setUserData({...userData,avatar: avatar.file});
-            console.log({...userData,avatar: avatar.file});
+           
         }
     },[avatar])
     
@@ -115,10 +114,10 @@ function UploadAvatar(props){
         onDrop
     });
     return(
-        <div className="upload-avatar" {...getRootProps()}>
+        <div className="upload-avatar book-upload" {...getRootProps()}>
             <input {...getInputProps()}/>
             {isDragActive ? (
-                <Avatar size={150} src={NoAvatar}/>
+                <Avatar className='avatar-circle-pruebba' size={150} src={NoAvatar}/>
             ):(
                 <Avatar size={150} src={avatarUrl ? avatarUrl : NoAvatar}/>
             )}
@@ -169,34 +168,6 @@ function EditForm(props){
                     </Form.Item>
                 </Col>
             </Row> 
-            {/* <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<LockOutlined/>}
-                            type="password"
-                            value={userData.password}
-                            placeholder="Contraseña"
-                            onChange={e=>
-                                setUserData({...userData, password: e.target.value})
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                <Form.Item>
-                        <Input
-                            prefix={<LockOutlined/>}
-                            type="password"
-                            placeholder="Repetir Contraseña"
-                            value={userData.repeatPassword}
-                            onChange={e=>
-                                setUserData({...userData, repeatPassword: e.target.value})
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-            </Row> */}
         <Form.Item>
             <Button type="primary" htmlType="submit" className="btn-submit">
                 Actualizar Usuario

@@ -25,8 +25,8 @@ function MenuSlider(props){
                     </Link>
                </Menu.Item> }
               
-               <Menu.Item key="/admin/menu">
-                    <Link to="/admin/menu">
+               <Menu.Item key="/admin/books">
+                    <Link to="/admin/books">
                     <BookOutlined />
                         <span className="nav-text">Libros</span>
                     </Link>

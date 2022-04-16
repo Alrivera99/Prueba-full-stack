@@ -157,3 +157,28 @@ export function createBookApi(token, data){
         return err.message;
     });
 }
+
+export function activateBookApi(token, userBook, status){
+    const url = `${basePath}/${apiVersion}/activate-book/${userBook}`
+
+    const params ={
+        method: "PUT",
+        headers:{
+            "Content-Type": "application/json",
+            Authorization: token
+        },
+        body: JSON.stringify({
+            active: status
+        })
+    };
+    return fetch(url, params)
+    .then(response =>{
+        return response.json();
+    })
+    .then(result =>{
+        return result.message;
+    })
+    .catch(err =>{
+        return err.message;
+    });
+}

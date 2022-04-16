@@ -12,7 +12,7 @@ api.post("/create-book", BookController.createBook);
 api.get("/book-active",[md_auth.ensureAuth], BookController.getBookActive);
 api.put("/upload-avatar-book/:id",[md_auth.ensureAuth, md_upload_avatar], BookController.uploadAvatar);
 api.get("/get-avatar-book/:avatarName", BookController.getAvatar);
+api.put("/activate-book/:id", [md_auth.ensureAuth], BookController.activateBook);
 api.delete("/delete-book/:id", [md_auth.ensureAuth], BookController.deleteBook)
 api.put("/update-book/:id", [md_auth.ensureAuth], BookController.updateBook);
-// api.put("/activate-user/:id", [md_auth.ensureAuth], UserController.activateUser);
 module.exports = api;

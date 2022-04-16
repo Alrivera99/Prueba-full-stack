@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Switch, List, Avatar, Button, notification, Modal as ModalAntd } from 'antd'
 import NoAvatar from '../../../../assets/img/png/no-avatar.png';
-import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined, ExceptionOutlined } from '@ant-design/icons';
+import { EditOutlined, RollbackOutlined, DeleteOutlined, CheckOutlined, ExceptionOutlined } from '@ant-design/icons';
 import Modal from '../../../Modal';
 import { ROLE } from "../../../../utils/constants";
 import EditBookForm from "../EditBookForm";
 import AddBookForm from "../AddBookForm"
 
-import { getBookApiActive, getAvatarApi, deleteBookApi } from "../../../../Api/book"
+import { getBookApiActive, getAvatarApi, deleteBookApi, activateBookApi } from "../../../../Api/book"
 
 import './ListBooks.scss';
 import { getAccessTokenApi } from "../../../../Api/auth";
@@ -51,11 +51,27 @@ export default function ListBooks(props) {
                 </div>
             }
 
-            {viewUsersActives ? (
-                <UsersActive userActive={usersActive} role={role} setIsVisibleModal={setIsVisibleModal} setModalTitle={setModalTitle} setModalContent={setModalContent} setReloadUsers={setReloadUsers} />
-            ) : (
-                <UsersInactive usersInactive={usersInactive} setReloadUsers={setReloadUsers} />
-            )}
+
+            {
+                role == "librarian" ?
+
+                    <>
+                        {viewUsersActives ? (
+                            <UsersActive userActive={usersActive} role={role} setIsVisibleModal={setIsVisibleModal} setModalTitle={setModalTitle} setModalContent={setModalContent} setReloadUsers={setReloadUsers} />
+                        ) : (
+                            <UsersInactive usersInactive={usersInactive}  role={role} setReloadUsers={setReloadUsers} />
+                        )}
+                    </> :
+                    <div className="separation-books">
+
+                        <UsersActive userActive={usersActive} role={role} setIsVisibleModal={setIsVisibleModal} setModalTitle={setModalTitle} setModalContent={setModalContent} setReloadUsers={setReloadUsers} />
+
+                        <UsersInactive usersInactive={usersInactive} role={role} setReloadUsers={setReloadUsers} />
+
+                    </div>
+
+            }
+
 
             <Modal
                 title={modalTitle}
@@ -141,20 +157,17 @@ function UserActive(props) {
             okType: "primary",
             cancelText: "Cancelar",
             onOk() {
-                // deleteBookApi(accessToken, books._id)
-                //     .then(response => {
-                //         notification["success"]({
-                //             message: response
-                //         });
-                //         setReloadUsers(true)
-                //     })
-                //     .catch(err => {
-                //         {
-                //             notification["error"]({
-                //                 message: err
-                //             })
-                //         }
-                //     })
+                activateBookApi(accessToken, books._id, false)
+                    .then(response => {
+                        notification["success"]({
+                            message: response
+                        });
+                        setReloadUsers(true)
+                    }).catch(err => {
+                        notification["error"]({
+                            message: err
+                        })
+                    })
             }
         })
     }
@@ -173,19 +186,6 @@ function UserActive(props) {
                             >
                                 <ExceptionOutlined />
                             </Button>,
-                            // <Button
-                            //     type="danger"
-                            //     onClick={desactiveUser}
-                            // >
-                            //     <StopOutlined />
-                            // </Button>,
-                            // <Button
-                            //     type="danger"
-                            // onClick={showDeleteConfirm}
-                            // >
-                            //     <EyeOutlined />
-                            // </Button>
-
                         ]}
                     >
 
@@ -217,12 +217,6 @@ function UserActive(props) {
                             >
                                 <EditOutlined />
                             </Button>,
-                            // <Button
-                            //     type="danger"
-                            //     onClick={desactiveUser}
-                            // >
-                            //     <StopOutlined />
-                            // </Button>,
                             <Button
                                 type="danger"
                                 onClick={showDeleteConfirm}
@@ -258,74 +252,64 @@ function UserActive(props) {
 }
 
 function UsersInactive(props) {
-    const { usersInactive, setReloadUsers } = props;
+    const { usersInactive, setReloadUsers, books,role } = props;
     return (
-        <List
-            className="users-active"
-            itemLayout="horizontal"
-            dataSource={usersInactive}
-            renderItem={user => <UserInactive user={user} setReloadUsers={setReloadUsers} />}
-        />
+       <div className="reservas-list">
+           {
+               role == "student" && <h3>Mis reservas</h3>
+           }
+            <List
+                className="users-active"
+                itemLayout="horizontal"
+                dataSource={usersInactive}
+                renderItem={books => <UserInactive books={books} setReloadUsers={setReloadUsers} />}
+            />
+       </div>
     )
 }
 
 function UserInactive(props) {
-    const { user, setReloadUsers } = props;
+    const { books, setReloadUsers } = props;
 
     const [avatar, setAvatar] = useState(null);
 
     useEffect(() => {
-        if (user.avatar) {
-            getAvatarApi(user.avatar).then(response => {
+        if (books.avatar) {
+            getAvatarApi(books.avatar).then(response => {
                 setAvatar(response);
             })
         } else {
             setAvatar(null);
         }
-    }, [user])
+    }, [books])
 
     const activeUser = e => {
         const accessToken = getAccessTokenApi();
 
-        getBookApiActive(accessToken, user._id, true)
-            .then(response => {
-                notification["success"]({
-                    message: response
-                });
-                setReloadUsers(true)
-            }).catch(err => {
-                notification["error"]({
-                    message: err
-                })
-            })
-    }
-    const showDeleteConfirm = e => {
-        const accessToken = getAccessTokenApi();
-
         confirm({
-            title: "Eliminando usuario",
-            content: `Estas seguro que quieres eliminar a  ${user.email}?`,
-            okText: "Elimniar",
-            okType: "danger",
+            title: "Regresar libro",
+            content: `Estas seguro que quieres regresar el libro ${books.title}?`,
+            okText: "Regresar",
+            okType: "primary",
             cancelText: "Cancelar",
             onOk() {
-                deleteBookApi(accessToken, user._id)
+                activateBookApi(accessToken, books._id, true)
                     .then(response => {
                         notification["success"]({
                             message: response
                         });
                         setReloadUsers(true)
-                    })
-                    .catch(err => {
-                        {
-                            notification["error"]({
-                                message: err
-                            })
-                        }
+                    }).catch(err => {
+                        notification["error"]({
+                            message: err
+                        })
                     })
             }
         })
+
+
     }
+
 
     return (
         <List.Item
@@ -334,25 +318,14 @@ function UserInactive(props) {
                     type="primary"
                     onClick={activeUser}
                 >
-                    <CheckOutlined />
+                    <RollbackOutlined />
                 </Button>,
-                <Button
-                    type="danger"
-                    onClick={showDeleteConfirm}
-                >
-                    <DeleteOutlined />
-                </Button>
-
             ]}
         >
-
             <List.Item.Meta
-                avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
-                title={`
-                            ${user.name ? user.name : "..."}
-                            ${user.lastname ? user.lastname : '...'}
-                        `}
-                description={user.email}
+                avatar={<Avatar className={avatar ? "image-book-reserv" : NoAvatar} src={avatar ? avatar : NoAvatar} />}
+                title={`Titulo: ${books.title ? books.title : "..."} `}
+                description={books.author}
             />
         </List.Item>
     )
