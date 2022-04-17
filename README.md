@@ -1,6 +1,6 @@
 # Prueba full stack
 
-Tecnologias usadas para realizar este proyecto
+Tecnologias usadas para realizar esta prueba
 
 Frontend:
 - React
@@ -24,3 +24,8 @@ Base de Datos :
 
 Gestor de paquetes:
 - Yarn
+
+-Servicio utilizados para subir la aplicacion a la nube:
+- Mongo Atlas
+- Heroku
+- Netlify

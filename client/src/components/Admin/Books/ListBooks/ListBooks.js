@@ -59,7 +59,7 @@ export default function ListBooks(props) {
                         {viewUsersActives ? (
                             <UsersActive userActive={usersActive} role={role} setIsVisibleModal={setIsVisibleModal} setModalTitle={setModalTitle} setModalContent={setModalContent} setReloadUsers={setReloadUsers} />
                         ) : (
-                            <UsersInactive usersInactive={usersInactive}  role={role} setReloadUsers={setReloadUsers} />
+                            <UsersInactive usersInactive={usersInactive} role={role} setReloadUsers={setReloadUsers} />
                         )}
                     </> :
                     <div className="separation-books">
@@ -252,24 +252,24 @@ function UserActive(props) {
 }
 
 function UsersInactive(props) {
-    const { usersInactive, setReloadUsers, books,role } = props;
+    const { usersInactive, setReloadUsers, books, role } = props;
     return (
-       <div className="reservas-list">
-           {
-               role == "student" && <h3>Mis reservas</h3>
-           }
+        <div className="reservas-list">
+            {
+                role == "student" && <h3>Mis reservas</h3>
+            }
             <List
                 className="users-active"
                 itemLayout="horizontal"
                 dataSource={usersInactive}
-                renderItem={books => <UserInactive books={books} setReloadUsers={setReloadUsers} />}
+                renderItem={books => <UserInactive books={books} setReloadUsers={setReloadUsers} role={role}/>}
             />
-       </div>
+        </div>
     )
 }
 
 function UserInactive(props) {
-    const { books, setReloadUsers } = props;
+    const { books, setReloadUsers, role } = props;
 
     const [avatar, setAvatar] = useState(null);
 
@@ -287,8 +287,8 @@ function UserInactive(props) {
         const accessToken = getAccessTokenApi();
 
         confirm({
-            title: "Regresar libro",
-            content: `Estas seguro que quieres regresar el libro ${books.title}?`,
+            title: "Devolver libro",
+            content: `Estas seguro que quieres devolver el libro ${books.title}?`,
             okText: "Regresar",
             okType: "primary",
             cancelText: "Cancelar",
@@ -309,24 +309,41 @@ function UserInactive(props) {
 
 
     }
-
-
     return (
-        <List.Item
-            actions={[
-                <Button
-                    type="primary"
-                    onClick={activeUser}
-                >
-                    <RollbackOutlined />
-                </Button>,
-            ]}
-        >
-            <List.Item.Meta
-                avatar={<Avatar className={avatar ? "image-book-reserv" : NoAvatar} src={avatar ? avatar : NoAvatar} />}
-                title={`Titulo: ${books.title ? books.title : "..."} `}
-                description={books.author}
-            />
-        </List.Item>
+
+        <>
+            {
+                role == "librarian" ?
+                    (
+                        <List.Item
+                            actions={[
+                                <Button
+                                    type="primary"
+                                    onClick={activeUser}
+                                >
+                                    <RollbackOutlined />
+                                </Button>
+                            ]}
+                        >
+                            <List.Item.Meta
+                                avatar={<Avatar className={avatar ? "image-book-reserv" : NoAvatar} src={avatar ? avatar : NoAvatar} />}
+                                title={`Titulo: ${books.title ? books.title : "..."} `}
+                                description={books.author}
+                            />
+                        </List.Item>
+                    )
+                    :
+                    <List.Item
+
+                    >
+                        <List.Item.Meta
+                            avatar={<Avatar className={avatar ? "image-book-reserv" : NoAvatar} src={avatar ? avatar : NoAvatar} />}
+                            title={`Titulo: ${books.title ? books.title : "..."} `}
+                            description={books.author}
+                        />
+                    </List.Item>
+            }
+        </>
+
     )
 }

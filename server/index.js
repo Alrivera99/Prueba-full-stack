@@ -7,7 +7,8 @@ const{ API_VERSION, IP_SERVER, PORT_DB}= require("./config");
 mongoose.set("useFindAndModify", false);
 
 mongoose.connect(
-    `mongodb://${IP_SERVER}:${PORT_DB}/alejandrorivera`, {useNewUrlParser: true, useUnifiedTopology: true},
+    `mongodb+srv://admin:admin123@pruebafullstack.ilnuw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, 
+    {useNewUrlParser: true, useUnifiedTopology: true},
     (err,res) =>{
     if(err){
         throw err;
